@@ -44,8 +44,19 @@ public class BankAccount {
         }
     }
 
+    public void lock() {
+        lock.lock();
+    }
+
+    public void unlock() {
+        lock.unlock();
+    }
+
     public BigDecimal getBalance() {
         return balance.get();
     }
 
+    public UUID getId() {
+        return id;
+    }
 }

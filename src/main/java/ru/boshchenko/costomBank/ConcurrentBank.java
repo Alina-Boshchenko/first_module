@@ -1,41 +1,46 @@
 package ru.boshchenko.costomBank;
 
 import java.math.BigDecimal;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 public class ConcurrentBank {
 
-    private Set<BankAccount> accounts = new CopyOnWriteArraySet<>();
-    private final ReentrantLock lock = new ReentrantLock();
+    private ConcurrentHashMap<UUID, BankAccount> accounts = new ConcurrentHashMap();
 
     public BankAccount createAccount(BigDecimal balance) {
         BankAccount bankAccount = new BankAccount(balance);
-        accounts.add(bankAccount);
+        accounts.put(bankAccount.getId(), bankAccount);
         return bankAccount;
     }
 
     public void transfer(BankAccount accountForDebiting, BankAccount accountForReplenishment, BigDecimal amount) {
-        lock.lock();
+        if (accountForDebiting == accountForReplenishment) {
+            throw new IllegalArgumentException("Нельзя переводить на тот же счёт");
+        }
+
+        BankAccount first = accountForDebiting.getId().compareTo(accountForReplenishment.getId()) < 0 ? accountForDebiting : accountForReplenishment;
+        BankAccount second = (accountForDebiting == first) ? accountForReplenishment : accountForDebiting;
+
         try {
+            first.lock();
+            second.lock();
+
             accountForDebiting.withdraw(amount);
             accountForReplenishment.deposit(amount);
         } finally {
-            lock.unlock();
+            second.unlock();
+            first.unlock();
         }
     }
 
     public BigDecimal getTotalBalance() {
-        lock.lock();
-        try {
-            BigDecimal sum = new BigDecimal("0");
-            for (BankAccount el : accounts) {
-                sum = sum.add(el.getBalance());
-            }
-            return sum;
-        } finally {
-            lock.unlock();
+        BigDecimal sum = new BigDecimal("0");
+        for (Map.Entry<UUID, BankAccount> el : accounts.entrySet()) {
+            sum = sum.add(el.getValue().getBalance());
         }
+        return sum;
     }
 }

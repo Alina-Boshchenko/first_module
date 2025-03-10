@@ -10,8 +10,8 @@ public class App {
         ConcurrentBank bank = new ConcurrentBank();
 
         // Создание счетов
-        BankAccount account1 = bank.createAccount(new BigDecimal("1000.00"));
-        BankAccount account2 = bank.createAccount(new BigDecimal("500.00"));
+        BankAccount account1 = bank.createAccount(new BigDecimal("5000.00"));
+        BankAccount account2 = bank.createAccount(new BigDecimal("5000.00"));
 
         // Перевод между счетами
         Thread transferThread1 = new Thread(() -> bank.transfer(account1, account2, new BigDecimal("500.00")));
@@ -23,6 +23,7 @@ public class App {
         try {
             transferThread1.join();
             transferThread2.join();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
