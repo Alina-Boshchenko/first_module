@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Square extends TwoShape {
 
-    private final double lengthSide;
+    private final long lengthSide;
 
-    public Square(double lengthSide) {
+    public Square(long lengthSide) {
         try {
             validate(lengthSide);
         } catch (IllegalArgumentException ex){
@@ -16,22 +16,22 @@ public class Square extends TwoShape {
     }
 
     @Override
-    public double calculateArea() {
-        return Math.pow(lengthSide, 2);
+    public long calculateArea() {
+        return (long) Math.pow(lengthSide, 2);
     }
 
     @Override
-    public double calculatePerimeter() {
+    public long calculatePerimeter() {
         return 4 * lengthSide;
     }
 
-    private void validate(double side) {
+    private void validate(long side) {
         if (side <= 0) {
             throw new IllegalArgumentException("Длина стороны должна быть положительным числом");
         }
     }
 
-    public double getLengthSide() {
+    public long getLengthSide() {
         return lengthSide;
     }
 
@@ -46,7 +46,7 @@ public class Square extends TwoShape {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Square square = (Square) o;
-        return Double.compare(lengthSide, square.lengthSide) == 0;
+        return lengthSide == square.lengthSide;
     }
 
     @Override

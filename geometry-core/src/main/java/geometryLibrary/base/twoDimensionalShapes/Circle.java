@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Circle extends TwoShape {
 
-    private final double radius;
+    private final long radius;
 
-    public Circle(double radius) {
+    public Circle(long radius) {
         try {
             validate(radius);
         } catch (IllegalArgumentException ex){
@@ -16,22 +16,22 @@ public class Circle extends TwoShape {
     }
 
     @Override
-    public double calculateArea() {
-        return Math.PI*Math.pow(radius,2);
+    public long calculateArea() {
+        return (long) (Math.PI*Math.pow(radius,2));
     }
 
     @Override
-    public double calculatePerimeter() {
-        return 2*Math.PI*radius;
+    public long calculatePerimeter() {
+        return (long) (2*Math.PI*radius);
     }
 
-    private void validate(double radius){
+    private void validate(long radius){
         if (radius <= 0) {
             throw new IllegalArgumentException("Радиус должен быть положительным числом");
         }
     }
 
-    public double getRadius() {
+    public long getRadius() {
         return radius;
     }
 
@@ -46,7 +46,7 @@ public class Circle extends TwoShape {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Circle circle = (Circle) o;
-        return Double.compare(radius, circle.radius) == 0;
+        return radius == circle.radius;
     }
 
     @Override

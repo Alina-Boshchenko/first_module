@@ -9,7 +9,7 @@
     <version>1.1.0</version>
     <packaging>pom</packaging>
 
-    <name>geometry_library</name>
+    <name>geometry-library</name>
 
     <modules>
         <module>geometry-utils</module>

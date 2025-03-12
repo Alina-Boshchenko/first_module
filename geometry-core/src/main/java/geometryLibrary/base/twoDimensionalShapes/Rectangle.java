@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Rectangle extends TwoShape {
 
-    private final double width;
-    private final double length;
+    private final long width;
+    private final long length;
 
-    public Rectangle(double width, double length) {
+    public Rectangle(long width, long length) {
         try {
             validate(width, length);
         } catch (IllegalArgumentException ex) {
@@ -18,26 +18,26 @@ public class Rectangle extends TwoShape {
     }
 
     @Override
-    public double calculateArea() {
+    public long calculateArea() {
         return width * length;
     }
 
     @Override
-    public double calculatePerimeter() {
+    public long calculatePerimeter() {
         return (2 * (width + length));
     }
 
-    private void validate(double width, double length) {
+    private void validate(long width, long length) {
         if (width <= 0 || length <= 0) {
             throw new IllegalArgumentException("Все стороны должны быть положительными");
         }
     }
 
-    public double getWidth() {
+    public long getWidth() {
         return width;
     }
 
-    public double getLength() {
+    public long getLength() {
         return length;
     }
 
@@ -53,7 +53,7 @@ public class Rectangle extends TwoShape {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Rectangle rectangle = (Rectangle) o;
-        return Double.compare(width, rectangle.width) == 0 && Double.compare(length, rectangle.length) == 0;
+        return width == rectangle.width && length == rectangle.length;
     }
 
     @Override
