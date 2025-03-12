@@ -8,7 +8,6 @@ public enum MetricSystem {
     METERS(MetricSystem.ME_TERS),
     KILOMETERS(MetricSystem.KILO_METERS);
 
-
     private final long basicUnit;
 
     private static final long MILLI_METER = 1L;
@@ -20,7 +19,8 @@ public enum MetricSystem {
     MetricSystem(long basicUnit) {
         this.basicUnit = basicUnit;
     }
-    private long convert(long value, MetricSystem targetMetric){
+
+    private long convert(long value, MetricSystem targetMetric) {
         return (value * this.basicUnit) / targetMetric.basicUnit;
     }
 
@@ -32,7 +32,7 @@ public enum MetricSystem {
         return convert(value, CENTIMETERS);
     }
 
-    public long toDecimeters(long value){
+    public long toDecimeters(long value) {
         return convert(value, DECIMETERS);
     }
 
