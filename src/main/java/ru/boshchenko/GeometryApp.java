@@ -1,6 +1,7 @@
 package ru.boshchenko;
 
 import geometryLibrary.base.twoDimensionalShapes.*;
+import geometryUtils.base.ComparingShapes;
 import geometryUtils.base.MetricSystem;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public class GeometryApp {
         System.out.println(MetricSystem.MILLIMETER.toDecimeters(circle.calculateArea()) + " дециметров");
         System.out.println(MetricSystem.MILLIMETER.toMeters(circle.calculateArea()) + " метров");
         System.out.println(MetricSystem.MILLIMETER.toKilometers(circle.calculateArea()) + " километров");
+
+        ComparingShapes<TwoShape> comparingShapes;
 
     }
 }
