@@ -7,15 +7,20 @@ import java.util.List;
 public class GeometryApp {
     public static void main(String[] args) {
 
-        TwoShape twoShape = new Triangle(5.0, 3.0, 6.0);
-        TwoShape twoShape1 = new Circle(6.25);
-        TwoShape twoShape2 = new Square(7.5);
-        TwoShape twoShape3 = new Rectangle(3.5, 8.4);
+        Triangle triangle = new Triangle(5.0, 3.0, 6.0);
+        Circle circle = new Circle(6.25);
+        Square square = new Square(7.5);
+        Rectangle rectangle = new Rectangle(3.5, 8.4);
 
-        List<TwoShape> twoShapes = List.of(twoShape, twoShape1, twoShape2, twoShape3);
+        List<TwoShape> twoShapes = List.of(triangle, circle, square, rectangle);
 
         twoShapes.forEach(shape -> System.out.printf("Фигура: %s\nПериметр = %f\nПлощадь = %f\n\n"
                 , shape, shape.calculatePerimeter(), shape.calculateArea()));
+
+        System.out.println(triangle.getLengthFirstSide() + " " + triangle.getLengthSecondSide() + " " + triangle.getLengthThirdSide());
+        System.out.println(circle.getRadius());
+        System.out.println(square.getLengthSide());
+        System.out.println(rectangle.getLength() + " " + rectangle.getWidth());
 
     }
 }
