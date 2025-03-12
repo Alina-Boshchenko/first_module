@@ -3,6 +3,8 @@ package ru.boshchenko;
 import geometryLibrary.base.twoDimensionalShapes.*;
 import geometryUtils.base.ComparingShapes;
 import geometryUtils.base.MetricSystem;
+import threeDimensionalShapes.Cube;
+import threeDimensionalShapes.Sphere;
 
 import java.util.List;
 
@@ -32,6 +34,11 @@ public class GeometryApp {
         System.out.println(MetricSystem.MILLIMETER.toKilometers(circle.calculateArea()) + " километров");
 
         ComparingShapes<TwoShape> comparingShapes;
+
+        Cube cube = new Cube(5);
+        Sphere sphere = new Sphere(3);
+        System.out.printf("Трехмерная фигура: %s, площадь фигуры: %d, объем фигуры %d\n", cube, cube.calculateArea(), cube.calculateVolume());
+        System.out.printf("Трехмерная фигура: %s, площадь фигуры: %d, объем фигуры %d\n", sphere, sphere.calculateArea(), sphere.calculateVolume());
 
     }
 }
