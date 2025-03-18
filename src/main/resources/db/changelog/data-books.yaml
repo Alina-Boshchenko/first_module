@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: generate-books
+      author: boshchenko
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO books (title, publication_date, author_id)
+                          SELECT 
+                              'Book Title ' || X,
+                              DATEADD('YEAR', -FLOOR(RAND() * 10), CURRENT_DATE),
+                              (SELECT id FROM authors ORDER BY RAND() LIMIT 1)
+                          FROM SYSTEM_RANGE(1, 7000);

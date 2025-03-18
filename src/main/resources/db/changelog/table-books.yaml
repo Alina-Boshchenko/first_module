@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-books
+      author: boshchenko
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: uuid()
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: publication_date
+                  type: date
+              - column:
+                  name: author_id
+                  type: UUID
+            addForeignKeyConstraint:
+              baseTableName: books
+              baseColumnNames: author_id
+              constraintName: fk_book_author
+              referencedTableName: authors
+              referencedColumnNames: id
+

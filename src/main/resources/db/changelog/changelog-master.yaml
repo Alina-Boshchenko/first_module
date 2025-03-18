@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/table-authors.yaml
+  - include:
+      file: db/changelog/table-books.yaml
+  - include:
+      file: db/changelog/data-authors.yaml
+  - include:
+      file: db/changelog/data-books.yaml

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: generate-authors
+      author: boshchenko
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO authors (first_name, last_name, email)
+                            SELECT 
+                                'Name_' || X,
+                                'LastName_' || X,
+                                'author' || X || '@jf.ru'
+                            FROM SYSTEM_RANGE(1, 3000);
