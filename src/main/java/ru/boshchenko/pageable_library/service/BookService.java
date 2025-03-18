@@ -1,5 +1,7 @@
 package ru.boshchenko.pageable_library.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.boshchenko.pageable_library.dto.request.BookRequest;
 import ru.boshchenko.pageable_library.dto.request.BookRequestPatch;
@@ -13,7 +15,7 @@ public interface BookService {
 
     BookResponse create(BookRequest bookRequest);
 
-    PagedDataResponse<BookResponse> findAll(int page, int size, String sort);
+    Page<BookResponse> findAll(Pageable pageable);
 
     BookResponse findById(UUID id);
 

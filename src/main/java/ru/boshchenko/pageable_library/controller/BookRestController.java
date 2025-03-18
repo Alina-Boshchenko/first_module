@@ -2,6 +2,9 @@ package ru.boshchenko.pageable_library.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +26,8 @@ public class BookRestController {
     //http://localhost:8080/api/book/all?page=100&size=10&sort=publicationDate,asc
     //http://localhost:8080/api/book/all?page=100&size=10&sort=title,asc
     @GetMapping("/all")
-    public ResponseEntity<PagedDataResponse<BookResponse>> getPageAndSort(
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int size,
-            @RequestParam(required = false, defaultValue = "id,asc") String sort
-    ) {
-        PagedDataResponse<BookResponse> data = bookService.findAll(page, size, sort);
-        return ResponseEntity.status(HttpStatus.OK).body(data);
+    public ResponseEntity<Page<BookResponse>> getPageAndSort(@PageableDefault(sort = "title")Pageable pageable) {
+        return ResponseEntity.ok(bookService.findAll(pageable));
     }
 
     @PostMapping("/create")
@@ -40,8 +38,7 @@ public class BookRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BookResponse> getAuthor(@PathVariable UUID id) {
-        BookResponse bookResponse = bookService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(bookResponse);
+        return ResponseEntity.ok(bookService.findById(id));
     }
 
     @PatchMapping("/{id}")
@@ -53,7 +50,7 @@ public class BookRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         bookService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("");
+        return ResponseEntity.ok("");
     }
 
 }

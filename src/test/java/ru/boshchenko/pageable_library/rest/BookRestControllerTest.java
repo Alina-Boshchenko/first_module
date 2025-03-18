@@ -13,8 +13,9 @@ import ru.boshchenko.pageable_library.controller.BookRestController;
 import ru.boshchenko.pageable_library.dto.request.BookRequest;
 import ru.boshchenko.pageable_library.dto.request.BookRequestPatch;
 import ru.boshchenko.pageable_library.dto.response.BookResponse;
-import ru.boshchenko.pageable_library.dto.response.PagedDataResponse;
 import ru.boshchenko.pageable_library.exception.ResourceNotFoundException;
+import ru.boshchenko.pageable_library.model.Author;
+import ru.boshchenko.pageable_library.model.Book;
 import ru.boshchenko.pageable_library.repo.AuthorRepository;
 import ru.boshchenko.pageable_library.service.BookService;
 
@@ -43,30 +44,46 @@ class BookRestControllerTest {
 
     private final UUID bookId = UUID.randomUUID();
     private final UUID authorId = UUID.randomUUID();
-    private final LocalDate pubDate = LocalDate.now().minusYears(1);
+    private final LocalDate date = LocalDate.now().minusYears(1);
 
     @Test
     void getBooksWithPagination() throws Exception {
-        BookResponse response = new BookResponse();
-        response.setId(bookId);
-        response.setTitle("title");
-        response.setPublicationDate(pubDate);
-        response.setAuthorName("Anna Golub");
+        Author author = new Author();
+        author.setFirstName("Anna");
+        author.setLastName("Golub");
+        Book book = new Book();
+        book.setId(bookId);
+        book.setTitle("title");
+        book.setPublicationDate(date);
+        book.setAuthor(author);
 
-        Page<BookResponse> page = new PageImpl<>(List.of(response));
-        Mockito.when(bookService.findAll(0, 10, "id,asc"))
-                .thenReturn(new PagedDataResponse<>(List.of(response), 1L));
+        Page<Book> entityPage = new PageImpl<>(List.of(book), PageRequest.of(0, 10), 1);
+        Page<BookResponse> responsePage = entityPage.map(b -> {
+            BookResponse res = new BookResponse();
+            res.setId(b.getId());
+            res.setTitle(b.getTitle());
+            res.setPublicationDate(b.getPublicationDate());
+            res.setAuthorName(b.getAuthor().getLastName() + " " + b.getAuthor().getFirstName());
+            return res;
+        });
 
-        mockMvc.perform(get("/api/book/all"))
+        Mockito.when(bookService.findAll(any(Pageable.class))).thenReturn(responsePage);
+        mockMvc.perform(get("/api/book/all")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sort", "title,asc"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data[0].title").value("title"))
-                .andExpect(jsonPath("$.data[0].author_name").value("Anna Golub"))
-                .andExpect(jsonPath("$.total").value(1));
+                .andExpect(jsonPath("$.content[0].title").value("title"))
+                .andExpect(jsonPath("$.content[0].author_name").value("Golub Anna"))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.pageable.paged").value(true))
+                .andExpect(jsonPath("$.pageable.pageNumber").value(0))
+                .andExpect(jsonPath("$.pageable.pageSize").value(10));
     }
 
     @Test
     void createBookWithValidAuthor() throws Exception {
-        BookRequest request = new BookRequest("title", pubDate, authorId);
+        BookRequest request = new BookRequest("title", date, authorId);
         BookResponse response = new BookResponse();
         response.setId(bookId);
         response.setAuthorName("Anna Golub");
@@ -83,7 +100,7 @@ class BookRestControllerTest {
 
     @Test
     void createBookWithInvalidAuthor() throws Exception {
-        BookRequest request = new BookRequest("title", pubDate, authorId);
+        BookRequest request = new BookRequest("title", date, authorId);
 
         Mockito.when(bookService.create(any()))
                 .thenThrow(new ResourceNotFoundException("Author not found"));
