@@ -10,12 +10,13 @@ import ru.boshchenko.projections.exception.ResourceNotFoundException;
 import ru.boshchenko.projections.mapper.DepartmentMapper;
 import ru.boshchenko.projections.model.Department;
 import ru.boshchenko.projections.repo.DepartmentRepository;
+import ru.boshchenko.projections.service.inter.DepartmentService;
 
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class DepartmentService {
+public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
 

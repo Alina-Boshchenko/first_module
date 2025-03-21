@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.boshchenko.projections.dto.EmployeeDto;
-import ru.boshchenko.projections.service.EmployeeService;
+import ru.boshchenko.projections.service.EmployeeServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,7 +33,7 @@ class EmployeeRestIntegrationTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeServiceImpl;
 
     @InjectMocks
     private EmployeeRest employeeRest;
@@ -53,7 +53,7 @@ class EmployeeRestIntegrationTest {
         Pageable pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.ASC, "lastName"));
         Page<EmployeeDto> page = new PageImpl<>(List.of(dto), pageable, 1);
 
-        when(employeeService.getAll(any(Pageable.class))).thenReturn(page);
+        when(employeeServiceImpl.getAll(any(Pageable.class))).thenReturn(page);
 
         mockMvc.perform(get("/api/employee/all")
                         .param("page", "0")
@@ -70,7 +70,7 @@ class EmployeeRestIntegrationTest {
     void getOne_ShouldReturnEmployeeDto() throws Exception {
         EmployeeDto dto = createSampleDto();
 
-        when(employeeService.getOne(dto.getId())).thenReturn(dto);
+        when(employeeServiceImpl.getOne(dto.getId())).thenReturn(dto);
 
         mockMvc.perform(get("/api/employee/{id}", dto.getId()))
                 .andExpect(status().isOk())
@@ -82,7 +82,7 @@ class EmployeeRestIntegrationTest {
     void create_ShouldReturnCreatedDto() throws Exception {
         EmployeeDto dto = createSampleDto();
 
-        when(employeeService.create(any(EmployeeDto.class))).thenReturn(dto);
+        when(employeeServiceImpl.create(any(EmployeeDto.class))).thenReturn(dto);
 
         mockMvc.perform(post("/api/employee")
                         .contentType(MediaType.APPLICATION_JSON)

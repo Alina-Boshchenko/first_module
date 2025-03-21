@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 import ru.boshchenko.projections.dto.EmployeeDto;
 import ru.boshchenko.projections.exception.ResourceNotFoundException;
@@ -15,6 +14,7 @@ import ru.boshchenko.projections.model.Department;
 import ru.boshchenko.projections.model.Employee;
 import ru.boshchenko.projections.repo.DepartmentRepository;
 import ru.boshchenko.projections.repo.EmployeeRepository;
+import ru.boshchenko.projections.service.inter.EmployeeService;
 import ru.boshchenko.projections.spel.EmployeeProjection;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 

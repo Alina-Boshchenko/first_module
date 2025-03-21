@@ -1,6 +1,5 @@
 package ru.boshchenko.projections.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +11,7 @@ import ru.boshchenko.projections.exception.ResourceNotFoundException;
 import ru.boshchenko.projections.mapper.DepartmentMapper;
 import ru.boshchenko.projections.model.Department;
 import ru.boshchenko.projections.repo.DepartmentRepository;
-import ru.boshchenko.projections.service.DepartmentService;
+import ru.boshchenko.projections.service.DepartmentServiceImpl;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class DepartmentServiceTest {
+class DepartmentServiceImplTest {
 
     @Mock
     private DepartmentRepository departmentRepository;
@@ -29,7 +28,7 @@ class DepartmentServiceTest {
     private DepartmentMapper departmentMapper;
 
     @InjectMocks
-    private DepartmentService departmentService;
+    private DepartmentServiceImpl departmentServiceImpl;
 
     private final UUID testId = UUID.randomUUID();
     private Department testDepartment;
@@ -51,7 +50,7 @@ class DepartmentServiceTest {
         when(departmentRepository.findById(testId)).thenReturn(Optional.of(testDepartment));
         when(departmentMapper.toDepartmentDto(testDepartment)).thenReturn(testDepartmentDto);
 
-        DepartmentDto result = departmentService.getOne(testId);
+        DepartmentDto result = departmentServiceImpl.getOne(testId);
 
         assertNotNull(result);
         assertEquals(testId, result.getId());
@@ -63,7 +62,7 @@ class DepartmentServiceTest {
         when(departmentRepository.findById(testId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class,
-                () -> departmentService.getOne(testId));
+                () -> departmentServiceImpl.getOne(testId));
     }
 
     @Test
@@ -72,7 +71,7 @@ class DepartmentServiceTest {
         when(departmentRepository.save(testDepartment)).thenReturn(testDepartment);
         when(departmentMapper.toDepartmentDto(testDepartment)).thenReturn(testDepartmentDto);
 
-        DepartmentDto result = departmentService.create(testDepartmentDto);
+        DepartmentDto result = departmentServiceImpl.create(testDepartmentDto);
 
         assertNotNull(result);
         assertEquals(testId, result.getId());
@@ -84,7 +83,7 @@ class DepartmentServiceTest {
         when(departmentRepository.findById(testId)).thenReturn(Optional.of(testDepartment));
         when(departmentMapper.toDepartmentDto(testDepartment)).thenReturn(testDepartmentDto);
 
-        DepartmentDto result = departmentService.delete(testId);
+        DepartmentDto result = departmentServiceImpl.delete(testId);
 
         assertNotNull(result);
         assertEquals(testId, result.getId());

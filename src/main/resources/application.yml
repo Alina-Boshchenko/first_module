@@ -10,3 +10,8 @@ spring:
     console:
       enabled: true
 
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security=DEBUG
