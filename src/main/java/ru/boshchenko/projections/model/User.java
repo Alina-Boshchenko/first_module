@@ -30,9 +30,15 @@ public class User {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles;
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
+
+    @Column(name = "account_non_locked", nullable = false)
     private boolean accountNonLocked = true;
+
+
+    @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
 
 }

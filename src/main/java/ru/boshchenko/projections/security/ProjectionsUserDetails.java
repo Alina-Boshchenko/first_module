@@ -21,7 +21,7 @@ public class ProjectionsUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream().map(SimpleGrantedAuthority::new).toList();
+        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.toString())).toList();
     }
 
     @Override
