@@ -23,7 +23,10 @@ public class ProjectionsUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
-        ProjectionsUserDetails projectionsUserDetails = new ProjectionsUserDetails(user);
-        return projectionsUserDetails;
+        return new ProjectionsUserDetails(user);
     }
+
+
+
+
 }

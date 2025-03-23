@@ -1,12 +1,15 @@
 package ru.boshchenko.projections.security;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 import ru.boshchenko.projections.model.User;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
+
 
 public class ProjectionsUserDetails implements UserDetails {
 
@@ -18,7 +21,7 @@ public class ProjectionsUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+        return user.getRoles().stream().map(SimpleGrantedAuthority::new).toList();
     }
 
     @Override

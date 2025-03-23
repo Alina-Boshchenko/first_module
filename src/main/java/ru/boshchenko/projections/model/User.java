@@ -4,6 +4,7 @@ package ru.boshchenko.projections.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,12 +29,10 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
+
+    private boolean accountNonLocked = true;
+    private int failedLoginAttempts = 0;
 
 }
