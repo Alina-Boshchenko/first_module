@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.boshchenko.projections.dto.EmployeeDto;
 import ru.boshchenko.projections.service.EmployeeServiceImpl;
@@ -24,22 +25,26 @@ public class EmployeeRest {
     private final EmployeeServiceImpl employeeServiceImpl;
 
     @GetMapping("/projection/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EmployeeProjection> findProjectionById(@PathVariable UUID id){
         return ResponseEntity.ok(employeeServiceImpl.findProjectionById(id));
     }
 
     @GetMapping("/projection")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<EmployeeProjection>> findAllProjectionsBy(){
         return ResponseEntity.ok(employeeServiceImpl.findAllProjectionsBy());
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<EmployeeDto>> getAll(@PageableDefault(sort = "lastName") Pageable pageable) {
         Page<EmployeeDto> data = employeeServiceImpl.getAll(pageable);
         return ResponseEntity.ok(data);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EmployeeDto> getOne(@PathVariable UUID id) {
         return ResponseEntity.ok(employeeServiceImpl.getOne(id));
     }
@@ -52,6 +57,7 @@ public class EmployeeRest {
     // доп
 
     @GetMapping("/by-ids")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<EmployeeDto>> getMany(@RequestParam List<UUID> ids) {
         return ResponseEntity.ok(employeeServiceImpl.getMany(ids));
     }

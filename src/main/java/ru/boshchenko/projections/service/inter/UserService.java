@@ -7,7 +7,6 @@ import ru.boshchenko.projections.model.User;
 public interface UserService {
 
     User findByUsername(String username);
-
-
+    void unlockUserAccount(String username);
 
 }

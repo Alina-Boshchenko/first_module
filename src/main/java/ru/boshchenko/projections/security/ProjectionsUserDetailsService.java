@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.boshchenko.projections.exception.ResourceNotFoundException;
 import ru.boshchenko.projections.model.User;
 import ru.boshchenko.projections.service.inter.UserService;
 
@@ -21,12 +22,9 @@ public class ProjectionsUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws ResourceNotFoundException {
         User user = userService.findByUsername(username);
         return new ProjectionsUserDetails(user);
     }
-
-
-
 
 }

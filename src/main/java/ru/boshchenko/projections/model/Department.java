@@ -23,6 +23,8 @@ public class Department {
     @Column(name = "name", nullable = false)
     private String name;
 
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

@@ -39,6 +39,8 @@ public class Employee {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

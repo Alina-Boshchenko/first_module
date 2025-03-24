@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import ru.boshchenko.projections.model.User;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 
 public class ProjectionsUserDetails implements UserDetails {
@@ -21,7 +23,7 @@ public class ProjectionsUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.toString())).toList();
+        return Set.of(new SimpleGrantedAuthority("ROLE_"+user.getRole().toString()));
     }
 
     @Override

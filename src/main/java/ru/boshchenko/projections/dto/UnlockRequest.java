@@ -6,9 +6,7 @@ import lombok.Value;
 
 @Value
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LoginRequest {
+public class UnlockRequest {
     @NotBlank(message = "username is not blank")
     String username;
-    @NotBlank(message = "password is required")
-    String password;
 }

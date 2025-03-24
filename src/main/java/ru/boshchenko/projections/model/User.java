@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,16 +24,14 @@ public class User {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "user_name", unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
-
+    private Role role;
 
     @Column(name = "account_non_locked", nullable = false)
     private boolean accountNonLocked = true;
@@ -41,4 +40,18 @@ public class User {
     @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
 
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return accountNonLocked == user.accountNonLocked && failedLoginAttempts == user.failedLoginAttempts && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, role, accountNonLocked, failedLoginAttempts);
+    }
 }
