@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Админ-панель</title>
+</head>
+<body>
+<div sec:authorize="hasRole('ADMIN')">
+    <h1>Административная панель</h1>
+    <p>Секретные данные системы</p>
+    <a href="/admin/users">Управление пользователями</a>
+</div>
+</body>
+</html>

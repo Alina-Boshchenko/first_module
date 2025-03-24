@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Профиль</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <h1>Добро пожаловать, <span th:text="${login}"></span>!</h1>
+
+    <!-- Общая информация для всех -->
+    <div>
+        <p>Email: <span th:text="${email}"></span></p>
+    </div>
+
+    <!-- Секция только для администраторов -->
+    <div sec:authorize="hasRole('ADMIN')">
+        <h2>Административная панель</h2>
+        <a href="/admin/dashboard">Перейти в админку</a>
+    </div>
+
+    <!-- Секция только для пользователей -->
+    <div sec:authorize="hasRole('USER')">
+        <h2>Пользовательские настройки</h2>
+        <a href="/user/settings">Мои настройки</a>
+    </div>
+</div>
+</body>
+</html>
