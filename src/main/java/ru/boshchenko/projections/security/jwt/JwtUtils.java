@@ -19,7 +19,7 @@ import java.util.function.Function;
 public class JwtUtils {
 
     private SecretKey secretKey;
-    private static final long EXPIRATION_TIME = 86400000; // 24 часа
+    private static final long EXPIRATION_TIME = 120000; // 24 часа
 
     public JwtUtils() {
         String secreteString = "mySecretKeyForJWTGenerationWithSpringSecurity12345";

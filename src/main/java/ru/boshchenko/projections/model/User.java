@@ -21,7 +21,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
     @Column(name = "username", unique = true, nullable = false)
@@ -47,11 +47,11 @@ public class User {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return accountNonLocked == user.accountNonLocked && failedLoginAttempts == user.failedLoginAttempts && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && role == user.role;
+        return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, accountNonLocked, failedLoginAttempts);
+        return Objects.hashCode(id);
     }
 }

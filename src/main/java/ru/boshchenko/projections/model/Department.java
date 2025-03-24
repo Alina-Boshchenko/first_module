@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -29,11 +29,11 @@ public class Department {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Department that = (Department) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hashCode(id);
     }
 }

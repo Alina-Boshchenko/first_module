@@ -19,7 +19,7 @@ import java.util.UUID;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
     @Column(name = "first_name", nullable = false)
@@ -45,11 +45,11 @@ public class Employee {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(position, employee.position) && Objects.equals(salary, employee.salary) && Objects.equals(department, employee.department);
+        return Objects.equals(id, employee.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, position, salary, department);
+        return Objects.hashCode(id);
     }
 }
