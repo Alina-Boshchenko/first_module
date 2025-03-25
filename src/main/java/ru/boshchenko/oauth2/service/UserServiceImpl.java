@@ -13,6 +13,7 @@ import ru.boshchenko.oauth2.service.inter.UserService;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
         user.setProvider(provider);
         user.setUsername(username);
         user.setEmail(email);
-        user.setRoles(new HashSet<>(Set.of(role)));
+        user.setRoles(new HashSet<>(Set.of(Objects.requireNonNull(role))));
         return userRepo.save(user);
     }
 
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
                             String role) {
         if (username != null) user.setUsername(username);
         if (email != null) user.setEmail(email);
-        user.getRoles().add(role);
+        user.getRoles().add(Objects.requireNonNull(role));
         return userRepo.save(user);
     }
 

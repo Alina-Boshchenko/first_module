@@ -1,5 +1,6 @@
 package ru.boshchenko.oauth2.service;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -18,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import ru.boshchenko.oauth2.model.User;
 import ru.boshchenko.oauth2.service.inter.UserService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,16 +51,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 email,
                 role
         );
-
+        log.info("User roles before conversion: {}", user.getRoles());
         log.info("Успешная аутентификация пользователя: {}", user.getUsername());
 
         Set<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(el -> new SimpleGrantedAuthority("ROLE_"+el))
                 .collect(Collectors.toSet());
+        log.info("Final authorities: {}", authorities);
         return new DefaultOAuth2User(authorities, attributes,"id");
     }
 
-    private String fetchEmailFromGitHub(OAuth2AccessToken token) {
+    public String fetchEmailFromGitHub(OAuth2AccessToken token) {
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://api.github.com/user/emails";
         HttpHeaders headers = new HttpHeaders();
@@ -75,7 +76,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return (String) emails.get(0).get("email");
     }
 
-    private String determineRole(String email) {
+    public String determineRole(String email) {
         return email.contains("admin") ? "ADMIN" : "USER";
+    }
+
+
+
+
+
+
+
+
+
+
+    public Set<GrantedAuthority> convertRoles(User user) {
+        return user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toSet());
     }
 }
